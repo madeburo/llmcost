@@ -1,11 +1,10 @@
-# llm-prices
+# llm-cost
 
 > Compare LLM API prices across providers from the command line.
 
 [![PyPI version](https://img.shields.io/pypi/v/llm-prices.svg)](https://pypi.org/project/llm-prices/)
 [![Python](https://img.shields.io/pypi/pyversions/llm-prices.svg)](https://pypi.org/project/llm-prices/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CI](https://github.com/madeburo/llm-prices/actions/workflows/ci.yml/badge.svg)](https://github.com/madeburo/llm-prices/actions)
 
 Find the cheapest model for your prompt in seconds
 
