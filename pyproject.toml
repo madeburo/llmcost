@@ -47,8 +47,8 @@ tiktoken = [
 llm-prices = "llm_prices.cli:run"
 
 [project.urls]
-"Bug Reports" = "https://github.com/madeburo/llm-prices/issues"
-Source = "https://github.com/madeburo/llm-prices"
+"Bug Reports" = "https://github.com/madeburo/llmcost/issues"
+Source = "https://github.com/madeburo/llmcost"
 
 [tool.setuptools.packages.find]
 include = ["llm_prices*"]

@@ -202,7 +202,7 @@ my-new-model:
 ```
 
 ```bash
-git clone https://github.com/madeburo/llm-prices
+git clone https://github.com/madeburo/llmcost
 cd llm-prices
 pip install -e ".[dev]"
 pytest
