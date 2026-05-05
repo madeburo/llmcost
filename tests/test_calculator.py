@@ -1,5 +1,5 @@
-from llm_prices.calculator import calculate
-from llm_prices.data_loader import Model
+from llm_cost.calculator import calculate
+from llm_cost.data_loader import Model
 
 
 def test_calculate_costs_per_million_tokens():

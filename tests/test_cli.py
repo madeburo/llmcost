@@ -1,6 +1,6 @@
 from typer.testing import CliRunner
 
-from llm_prices.cli import app
+from llm_cost.cli import app
 
 
 runner = CliRunner()

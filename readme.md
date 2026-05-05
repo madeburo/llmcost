@@ -2,14 +2,14 @@
 
 > Compare LLM API prices across providers from the command line.
 
-[![PyPI version](https://img.shields.io/pypi/v/llm-prices.svg)](https://pypi.org/project/llm-prices/)
-[![Python](https://img.shields.io/pypi/pyversions/llm-prices.svg)](https://pypi.org/project/llm-prices/)
+[![PyPI version](https://img.shields.io/pypi/v/llm-cost.svg)](https://pypi.org/project/llm-cost/)
+[![Python](https://img.shields.io/pypi/pyversions/llm-cost.svg)](https://pypi.org/project/llm-cost/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Find the cheapest model for your prompt in seconds
 
 ```
-$ llm-prices calc "Summarize this article for me" --output 500
+$ llm-cost calc "Summarize this article for me" --output 500
 ```
 
 ```
@@ -33,13 +33,13 @@ $ llm-prices calc "Summarize this article for me" --output 500
 ## Install
 
 ```bash
-pip install llm-prices
+pip install llm-cost
 ```
 
 For accurate token counting (uses tiktoken):
 
 ```bash
-pip install "llm-prices[tiktoken]"
+pip install "llm-cost[tiktoken]"
 ```
 
 ---
@@ -49,27 +49,27 @@ pip install "llm-prices[tiktoken]"
 ### List all models
 
 ```bash
-llm-prices list
+llm-cost list
 ```
 
 Filter by provider:
 
 ```bash
-llm-prices list --provider anthropic
-llm-prices list --provider openai
+llm-cost list --provider anthropic
+llm-cost list --provider openai
 ```
 
 Sort options (`input`, `output`, `context`, `name`):
 
 ```bash
-llm-prices list --sort output
+llm-cost list --sort output
 ```
 
 Search by name:
 
 ```bash
-llm-prices list --search gpt-5
-llm-prices list --search gemini
+llm-cost list --search gpt-5
+llm-cost list --search gemini
 ```
 
 ---
@@ -78,19 +78,19 @@ llm-prices list --search gemini
 
 ```bash
 # Auto-estimate tokens from text
-llm-prices calc "Write me a blog post about AI pricing" --output 800
+llm-cost calc "Write me a blog post about AI pricing" --output 800
 
 # Specify tokens directly
-llm-prices calc --input 4000 --output 1000
+llm-cost calc --input 4000 --output 1000
 
 # Top 5 cheapest only
-llm-prices calc --input 10000 --output 2000 --top 5
+llm-cost calc --input 10000 --output 2000 --top 5
 
 # Filter to one provider
-llm-prices calc "My prompt" --output 500 --provider google
+llm-cost calc "My prompt" --output 500 --provider google
 
 # One specific model
-llm-prices calc "My prompt" --output 500 --model gpt-5-5
+llm-cost calc "My prompt" --output 500 --model gpt-5-5
 ```
 
 ---
@@ -99,19 +99,19 @@ llm-prices calc "My prompt" --output 500 --model gpt-5-5
 
 ```bash
 # Latest flagships head-to-head
-llm-prices compare gpt-5-5 claude-opus-4-7 gemini-3-1-pro
+llm-cost compare gpt-5-5 claude-opus-4-7 gemini-3-1-pro
 
 # Mid-tier sweet spot
-llm-prices compare gpt-5-4 claude-sonnet-4-6 gemini-3-flash --input 5000 --output 1000
+llm-cost compare gpt-5-4 claude-sonnet-4-6 gemini-3-flash --input 5000 --output 1000
 
 # Budget tier
-llm-prices compare gpt-5-4-nano deepseek-v4-flash grok-4-1-fast mistral-small-3-2
+llm-cost compare gpt-5-4-nano deepseek-v4-flash grok-4-1-fast mistral-small-3-2
 
 # New agentic models
-llm-prices compare deepseek-v4-pro glm-5-1 kimi-k2-6 minimax-m2-7 --input 5000 --output 1000
+llm-cost compare deepseek-v4-pro glm-5-1 kimi-k2-6 minimax-m2-7 --input 5000 --output 1000
 
 # From a real prompt
-llm-prices compare gpt-5-5 claude-opus-4-7 --prompt "Explain how transformers work"
+llm-cost compare gpt-5-5 claude-opus-4-7 --prompt "Explain how transformers work"
 ```
 
 ---
@@ -119,7 +119,7 @@ llm-prices compare gpt-5-5 claude-opus-4-7 --prompt "Explain how transformers wo
 ### List providers
 
 ```bash
-llm-prices providers
+llm-cost providers
 ```
 
 ---
@@ -175,7 +175,7 @@ Price sources:
 - Kimi: [Kimi K2.6 Pricing](https://platform.kimi.ai/docs/pricing/chat-k26)
 - MiniMax: [Pay as You Go](https://platform.minimax.io/docs/guides/pricing-paygo)
 
-**33 models across 11 providers.** Prices stored in [`llm_prices/data/prices.yaml`](llm_prices/data/prices.yaml) — PRs to update them are always welcome!
+**33 models across 11 providers.** Prices stored in [`llm_cost/data/prices.yaml`](llm_cost/data/prices.yaml) — PRs to update them are always welcome!
 
 ---
 
@@ -184,14 +184,14 @@ Price sources:
 Default: word-based heuristic — zero extra dependencies. For accurate counts:
 
 ```bash
-pip install "llm-prices[tiktoken]"
+pip install "llm-cost[tiktoken]"
 ```
 
 ---
 
 ## Contributing
 
-The easiest contribution is updating `llm_prices/data/prices.yaml` when a provider changes their pricing. Each entry is just 4 fields:
+The easiest contribution is updating `llm_cost/data/prices.yaml` when a provider changes their pricing. Each entry is just 4 fields:
 
 ```yaml
 my-new-model:
@@ -203,7 +203,7 @@ my-new-model:
 
 ```bash
 git clone https://github.com/madeburo/llmcost
-cd llm-prices
+cd llm-cost
 pip install -e ".[dev]"
 pytest
 ```

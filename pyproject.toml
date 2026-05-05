@@ -3,16 +3,16 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "llm-prices"
-version = "1.0.0"
-description = "Compare LLM API prices across providers from the command line"
+name = "llm-cost"
+version = "1.1.0"
+description = "Compare LLM API costs across providers from the command line"
 readme = "readme.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }
 authors = [
     { name = "madeburo" }
 ]
-keywords = ["llm", "prices", "api", "cost", "calculator", "comparison"]
+keywords = ["llm", "cost", "api", "pricing", "calculator", "comparison"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -44,17 +44,17 @@ tiktoken = [
 ]
 
 [project.scripts]
-llm-prices = "llm_prices.cli:run"
+llm-cost = "llm_cost.cli:run"
 
 [project.urls]
 "Bug Reports" = "https://github.com/madeburo/llmcost/issues"
 Source = "https://github.com/madeburo/llmcost"
 
 [tool.setuptools.packages.find]
-include = ["llm_prices*"]
+include = ["llm_cost*"]
 
 [tool.setuptools.package-data]
-"llm_prices.data" = ["prices.yaml"]
+"llm_cost.data" = ["prices.yaml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

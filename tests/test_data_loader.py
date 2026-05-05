@@ -1,4 +1,4 @@
-from llm_prices.data_loader import find_model, get_providers, load_models
+from llm_cost.data_loader import find_model, get_providers, load_models
 
 
 def test_load_models_from_package_data():
