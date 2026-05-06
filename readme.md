@@ -6,10 +6,14 @@
 [![Python](https://img.shields.io/pypi/pyversions/llmprices.svg)](https://pypi.org/project/llmprices/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+**Web:** [www.llmcost.run](https://www.llmcost.run)
+
+![llmcost](media/llmcost.png)
+
 Find the cheapest model for your prompt in seconds
 
 ```
-$ llm-cost calc "Summarize this article for me" --output 500
+$ llm-cost calc "Build a Python REST API" --output 500
 ```
 
 ```
@@ -27,6 +31,14 @@ $ llm-cost calc "Summarize this article for me" --output 500
 
   Cheapest: Mistral Small 3.2 (Mistral AI) — $0.000090
 ```
+
+---
+
+## Screenshots
+
+![Calc](media/llmcost-calc.png)
+
+![Budget](media/llmcost-budget.png)
 
 ---
 
@@ -51,6 +63,8 @@ pip install "llmprices[tiktoken]"
 ```bash
 llm-cost list
 ```
+
+![Flagship](media/Flagship.png)
 
 Filter by provider:
 
@@ -88,7 +102,7 @@ llm-cost list --search gemini
 
 ```bash
 # Auto-estimate tokens from text
-llm-cost calc "Write me a blog post about AI pricing" --output 800
+llm-cost calc "Build a Python REST API" --output 800
 
 # Specify tokens directly
 llm-cost calc --input 4000 --output 1000
@@ -97,17 +111,19 @@ llm-cost calc --input 4000 --output 1000
 llm-cost calc --input 10000 --output 2000 --top 5
 
 # Filter to one provider
-llm-cost calc "My prompt" --output 500 --provider google
+llm-cost calc "Build a Python REST API" --output 500 --provider google
 
 # Filter by efficiency tier
-llm-cost calc "Complex reasoning task" --output 1500 --tier advanced
+llm-cost calc "Build a Python REST API" --output 1500 --tier advanced
 
 # Sort by value (efficiency/cost ratio) instead of just cost
-llm-cost calc "My prompt" --output 1000 --sort value --top 10
+llm-cost calc "Build a Python REST API" --output 1000 --sort value --top 10
 
 # One specific model
-llm-cost calc "My prompt" --output 500 --model gpt-5-5
+llm-cost calc "Build a Python REST API" --output 500 --model gpt-5-5
 ```
+
+![Calc](media/Calc.png)
 
 **Understanding Value Score:**
 The value score represents the efficiency-to-cost ratio. Higher scores mean better value:
@@ -136,8 +152,10 @@ llm-cost compare gpt-5-4-nano deepseek-v4-flash grok-4-1-fast mistral-small-3-2
 llm-cost compare deepseek-v4-pro glm-5-1 kimi-k2-6 minimax-m2-7 --input 5000 --output 1000
 
 # From a real prompt
-llm-cost compare gpt-5-5 claude-opus-4-7 --prompt "Explain how transformers work"
+llm-cost compare gpt-5-5 claude-opus-4-7 --prompt "Build a Python REST API"
 ```
+
+![Compare](media/Compare.png)
 
 The comparison table shows:
 - **Tier**: Efficiency tier (flagship/advanced/standard/budget)
@@ -151,6 +169,8 @@ The comparison table shows:
 ```bash
 llm-cost providers
 ```
+
+![Providers](media/Providers.png)
 
 ---
 
@@ -249,3 +269,5 @@ cd llmprices
 pip install -e ".[dev]"
 pytest
 ```
+**Web:** [www.llmcost.run](https://www.llmcost.run)
+MIT
