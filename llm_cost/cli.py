@@ -1,4 +1,4 @@
-"""Command-line interface for llm-cost."""
+"""Command-line interface for llmprices."""
 
 from enum import Enum
 from typing import List, Optional

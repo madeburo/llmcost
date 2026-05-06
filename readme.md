@@ -1,9 +1,9 @@
-# llm-cost
+# llmprices
 
 > Compare LLM API prices across providers from the command line.
 
-[![PyPI version](https://img.shields.io/pypi/v/llm-cost.svg)](https://pypi.org/project/llm-cost/)
-[![Python](https://img.shields.io/pypi/pyversions/llm-cost.svg)](https://pypi.org/project/llm-cost/)
+[![PyPI version](https://img.shields.io/pypi/v/llmprices.svg)](https://pypi.org/project/llmprices/)
+[![Python](https://img.shields.io/pypi/pyversions/llmprices.svg)](https://pypi.org/project/llmprices/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Find the cheapest model for your prompt in seconds
@@ -33,13 +33,13 @@ $ llm-cost calc "Summarize this article for me" --output 500
 ## Install
 
 ```bash
-pip install llm-cost
+pip install llmprices
 ```
 
 For accurate token counting (uses tiktoken):
 
 ```bash
-pip install "llm-cost[tiktoken]"
+pip install "llmprices[tiktoken]"
 ```
 
 ---
@@ -177,6 +177,8 @@ Price sources:
 
 **33 models across 11 providers.** Prices stored in [`llm_cost/data/prices.yaml`](llm_cost/data/prices.yaml) — PRs to update them are always welcome!
 
+📦 **PyPI:** [pypi.org/project/llmprices](https://pypi.org/project/llmprices/)
+
 ---
 
 ## Token counting
@@ -184,7 +186,7 @@ Price sources:
 Default: word-based heuristic — zero extra dependencies. For accurate counts:
 
 ```bash
-pip install "llm-cost[tiktoken]"
+pip install "llmprices[tiktoken]"
 ```
 
 ---
@@ -203,7 +205,7 @@ my-new-model:
 
 ```bash
 git clone https://github.com/madeburo/llmcost
-cd llm-cost
+cd llmprices
 pip install -e ".[dev]"
 pytest
 ```

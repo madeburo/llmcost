@@ -1,1 +1,1 @@
-"""Package data for llm-cost."""
+"""Package data for llmprices."""
