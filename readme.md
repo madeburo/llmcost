@@ -59,10 +59,20 @@ llm-cost list --provider anthropic
 llm-cost list --provider openai
 ```
 
-Sort options (`input`, `output`, `context`, `name`):
+Filter by efficiency tier:
+
+```bash
+llm-cost list --tier flagship    # Top-tier models (GPT-5.5, Claude Opus 4.7, o3)
+llm-cost list --tier advanced    # Advanced models (GPT-5.4, Claude Sonnet, Gemini Pro)
+llm-cost list --tier standard    # Standard models (GPT-5, Claude Haiku, Gemini Flash)
+llm-cost list --tier budget      # Budget models (Nano, Small, Lite models)
+```
+
+Sort options (`input`, `output`, `context`, `name`, `value`):
 
 ```bash
 llm-cost list --sort output
+llm-cost list --sort value       # Sort by efficiency/cost ratio
 ```
 
 Search by name:
@@ -89,9 +99,21 @@ llm-cost calc --input 10000 --output 2000 --top 5
 # Filter to one provider
 llm-cost calc "My prompt" --output 500 --provider google
 
+# Filter by efficiency tier
+llm-cost calc "Complex reasoning task" --output 1500 --tier advanced
+
+# Sort by value (efficiency/cost ratio) instead of just cost
+llm-cost calc "My prompt" --output 1000 --sort value --top 10
+
 # One specific model
 llm-cost calc "My prompt" --output 500 --model gpt-5-5
 ```
+
+**Understanding Value Score:**
+The value score represents the efficiency-to-cost ratio. Higher scores mean better value:
+- Budget models often have high value scores for simple tasks
+- Advanced/Flagship models have lower value scores but better quality
+- Use `--sort value` to find the best balance for your use case
 
 ---
 
@@ -100,6 +122,9 @@ llm-cost calc "My prompt" --output 500 --model gpt-5-5
 ```bash
 # Latest flagships head-to-head
 llm-cost compare gpt-5-5 claude-opus-4-7 gemini-3-1-pro
+
+# Compare different tiers to see value differences
+llm-cost compare gpt-5-5 deepseek-r1 mistral-small-3-2 --input 5000 --output 2000
 
 # Mid-tier sweet spot
 llm-cost compare gpt-5-4 claude-sonnet-4-6 gemini-3-flash --input 5000 --output 1000
@@ -113,6 +138,11 @@ llm-cost compare deepseek-v4-pro glm-5-1 kimi-k2-6 minimax-m2-7 --input 5000 --o
 # From a real prompt
 llm-cost compare gpt-5-5 claude-opus-4-7 --prompt "Explain how transformers work"
 ```
+
+The comparison table shows:
+- **Tier**: Efficiency tier (flagship/advanced/standard/budget)
+- **Value**: Efficiency-to-cost ratio (higher = better value)
+- **Total Cost**: Complete cost for the specified tokens
 
 ---
 
@@ -128,40 +158,50 @@ llm-cost providers
 
 Prices in USD per 1M tokens.
 
-| Provider    | Model              | Input    | Output   | Context |
-|-------------|--------------------|----------|----------|---------|
-| OpenAI      | GPT-5.5            | $5.00    | $30.00   | 1M      |
-| OpenAI      | GPT-5.5 Pro        | $30.00   | $180.00  | 1M      |
-| OpenAI      | GPT-5.4            | $2.50    | $15.00   | 1.05M   |
-| OpenAI      | GPT-5.4 Mini       | $0.75    | $4.50    | 400K    |
-| OpenAI      | GPT-5.4 Nano       | $0.20    | $1.25    | 200K    |
-| OpenAI      | GPT-5              | $1.25    | $10.00   | 400K    |
-| OpenAI      | o3                 | $10.00   | $40.00   | 200K    |
-| OpenAI      | o4 Mini            | $1.10    | $4.40    | 200K    |
-| Anthropic   | Claude Opus 4.7    | $5.00    | $25.00   | 1M      |
-| Anthropic   | Claude Opus 4.6    | $5.00    | $25.00   | 1M      |
-| Anthropic   | Claude Sonnet 4.6  | $3.00    | $15.00   | 1M      |
-| Anthropic   | Claude Haiku 4.5   | $1.00    | $5.00    | 200K    |
-| Google      | Gemini 3.1 Pro     | $2.00    | $12.00   | 1M      |
-| Google      | Gemini 3 Flash     | $0.50    | $3.00    | 1M      |
-| Google      | Gemini 2.5 Pro     | $1.25    | $10.00   | 1M      |
-| Google      | Gemini 2.5 Flash   | $0.30    | $2.50    | 1M      |
-| Google      | Gemini 2.5 Flash-Lite | $0.10 | $0.40    | 1M      |
-| xAI         | Grok 4             | $3.00    | $15.00   | 2M      |
-| xAI         | Grok 4.1 Fast      | $0.20    | $0.50    | 2M      |
-| DeepSeek    | DeepSeek V4 Flash  | $0.14    | $0.28    | 1M      |
-| DeepSeek    | DeepSeek V4 Pro    | $1.74    | $3.48    | 1M      |
-| DeepSeek    | DeepSeek R1        | $0.55    | $2.19    | 1M      |
-| Z.AI        | GLM-5.1            | $1.40    | $4.40    | 200K    |
-| Kimi        | Kimi K2.6          | $0.95    | $4.00    | 256K    |
-| MiniMax     | MiniMax M2.7       | $0.30    | $1.20    | 197K    |
-| Mistral AI  | Mistral Large 3    | $0.50    | $1.50    | 256K    |
-| Mistral AI  | Mistral Medium 3.5 | $1.00    | $3.00    | 256K    |
-| Mistral AI  | Mistral Small 3.2  | $0.06    | $0.18    | 131K    |
-| Meta        | Llama 4 Maverick   | $0.27    | $0.85    | 1M      |
-| Meta        | Llama 3.3 70B      | $0.59    | $0.79    | 128K    |
-| Cohere      | Command R+         | $3.00    | $15.00   | 128K    |
-| Cohere      | Command R7B        | $0.04    | $0.15    | 128K    |
+### Efficiency Tiers
+
+Models are categorized by their capabilities and efficiency:
+
+- **🏆 Flagship**: Top-tier models with maximum efficiency for complex tasks (GPT-5.5, Claude Opus 4.7, o3)
+- **⚡ Advanced**: Excellent balance of quality and cost (GPT-5.4, Claude Sonnet, DeepSeek R1, Gemini Pro)
+- **✓ Standard**: Solid performance for most tasks (GPT-5, Claude Haiku, Gemini Flash)
+- **💰 Budget**: Cost-effective for simple tasks (Nano, Small, Lite models)
+
+| Provider    | Model              | Tier     | Input    | Output   | Context |
+|-------------|--------------------|----------|----------|----------|---------|
+| OpenAI      | GPT-5.5            | Flagship | $5.00    | $30.00   | 1M      |
+| OpenAI      | GPT-5.5 Pro        | Flagship | $30.00   | $180.00  | 1M      |
+| OpenAI      | GPT-5.4 Pro        | Flagship | $30.00   | $180.00  | 400K    |
+| OpenAI      | o3                 | Flagship | $10.00   | $40.00   | 200K    |
+| Anthropic   | Claude Opus 4.7    | Flagship | $5.00    | $25.00   | 1M      |
+| Anthropic   | Claude Opus 4.6    | Flagship | $5.00    | $25.00   | 1M      |
+| OpenAI      | GPT-5.4            | Advanced | $2.50    | $15.00   | 1.05M   |
+| OpenAI      | o4 Mini            | Advanced | $1.10    | $4.40    | 200K    |
+| Anthropic   | Claude Sonnet 4.6  | Advanced | $3.00    | $15.00   | 1M      |
+| Google      | Gemini 3.1 Pro     | Advanced | $2.00    | $12.00   | 1M      |
+| Google      | Gemini 2.5 Pro     | Advanced | $1.25    | $10.00   | 1M      |
+| xAI         | Grok 4             | Advanced | $3.00    | $15.00   | 2M      |
+| DeepSeek    | DeepSeek R1        | Advanced | $0.55    | $2.19    | 1M      |
+| OpenAI      | GPT-5              | Standard | $1.25    | $10.00   | 400K    |
+| OpenAI      | GPT-5.4 Mini       | Standard | $0.75    | $4.50    | 400K    |
+| Anthropic   | Claude Haiku 4.5   | Standard | $1.00    | $5.00    | 200K    |
+| Google      | Gemini 3 Flash     | Standard | $0.50    | $3.00    | 1M      |
+| Google      | Gemini 2.5 Flash   | Standard | $0.30    | $2.50    | 1M      |
+| DeepSeek    | DeepSeek V4 Pro    | Standard | $1.74    | $3.48    | 1M      |
+| Mistral AI  | Mistral Large 3    | Standard | $0.50    | $1.50    | 256K    |
+| Mistral AI  | Mistral Medium 3.5 | Standard | $1.00    | $3.00    | 256K    |
+| Z.AI        | GLM-5.1            | Standard | $1.40    | $4.40    | 200K    |
+| Kimi        | Kimi K2.6          | Standard | $0.95    | $4.00    | 256K    |
+| Cohere      | Command R+         | Standard | $3.00    | $15.00   | 128K    |
+| OpenAI      | GPT-5.4 Nano       | Budget   | $0.20    | $1.25    | 200K    |
+| Google      | Gemini 2.5 Flash-Lite | Budget | $0.10 | $0.40    | 1M      |
+| xAI         | Grok 4.1 Fast      | Budget   | $0.20    | $0.50    | 2M      |
+| DeepSeek    | DeepSeek V4 Flash  | Budget   | $0.14    | $0.28    | 1M      |
+| MiniMax     | MiniMax M2.7       | Budget   | $0.30    | $1.20    | 197K    |
+| Mistral AI  | Mistral Small 3.2  | Budget   | $0.06    | $0.18    | 131K    |
+| Meta        | Llama 4 Maverick   | Budget   | $0.27    | $0.85    | 1M      |
+| Meta        | Llama 3.3 70B      | Budget   | $0.59    | $0.79    | 128K    |
+| Cohere      | Command R7B        | Budget   | $0.04    | $0.15    | 128K    |
 
 Notes:
 

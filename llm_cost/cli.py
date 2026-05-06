@@ -16,6 +16,14 @@ class SortField(str, Enum):
     output = "output"
     context = "context"
     name = "name"
+    value = "value"  # sort by value score
+
+
+class EfficiencyTier(str, Enum):
+    flagship = "flagship"
+    advanced = "advanced"
+    standard = "standard"
+    budget = "budget"
 
 
 app = typer.Typer(
@@ -57,8 +65,9 @@ def _matches_search(model, query: str) -> bool:
 @app.command("list", help="List all available models and their prices.")
 def cmd_list(
     provider: Optional[str] = typer.Option(None, "--provider", "-p", help="Filter by provider."),
-    sort: SortField = typer.Option(SortField.input, "--sort", "-s", help="Sort by: input | output | context | name"),
+    sort: SortField = typer.Option(SortField.input, "--sort", "-s", help="Sort by: input | output | context | name | value"),
     search: Optional[str] = typer.Option(None, "--search", "-q", help="Search by model or provider name."),
+    tier: Optional[EfficiencyTier] = typer.Option(None, "--tier", "-t", help="Filter by efficiency tier: flagship | advanced | standard | budget"),
 ) -> None:
     models = load_models()
     if provider:
@@ -71,12 +80,24 @@ def cmd_list(
         if not models:
             console.print(f"[red]No models found for query:[/red] {search}")
             raise typer.Exit(1)
+    if tier:
+        models = [m for m in models if m.efficiency_tier == tier.value]
+        if not models:
+            console.print(f"[red]No models found for tier:[/red] {tier.value}")
+            raise typer.Exit(1)
     if sort == SortField.output:
         models = sorted(models, key=lambda m: m.output_per_million)
     elif sort == SortField.context:
         models = sorted(models, key=lambda m: m.context_window, reverse=True)
     elif sort == SortField.name:
         models = sorted(models, key=lambda m: m.name.lower())
+    elif sort == SortField.value:
+        # Calculate value scores for sorting
+        from llm_cost.calculator import calculate, EFFICIENCY_WEIGHTS
+        # Use standard token counts for value comparison
+        results = [calculate(m, 1000, 500) for m in models]
+        results.sort(key=lambda r: r.value_score, reverse=True)
+        models = [r.model for r in results]
     else:
         models = sorted(models, key=lambda m: m.input_per_million)
     title = "LLM API Prices"
@@ -84,6 +105,8 @@ def cmd_list(
         title += f" - {provider}"
     if search:
         title += f" - search: {search}"
+    if tier:
+        title += f" - {tier.value} tier"
     print_models_table(models, title=title)
     console.print(f"[dim]  {len(models)} models  ·  sorted by {sort.value}[/dim]\n")
 
@@ -96,6 +119,8 @@ def cmd_calc(
     top: int = typer.Option(10, "--top", "-n", min=1, help="Show top N cheapest models."),
     provider: Optional[str] = typer.Option(None, "--provider", "-p", help="Filter by provider."),
     model: Optional[str] = typer.Option(None, "--model", "-m", help="Show only a specific model."),
+    tier: Optional[EfficiencyTier] = typer.Option(None, "--tier", "-t", help="Filter by efficiency tier: flagship | advanced | standard | budget"),
+    sort_by: Optional[str] = typer.Option("cost", "--sort", "-s", help="Sort by: cost | value (default: cost)"),
 ) -> None:
     if prompt is None and input_tokens is None:
         console.print("[red]Provide a prompt or --input token count.[/red]")
@@ -117,16 +142,37 @@ def cmd_calc(
         if not models:
             console.print(f"[red]No models found for provider:[/red] {provider}")
             raise typer.Exit(1)
-    results = calculate_all(models, input_tokens, output_tokens)[:top]
+    if tier:
+        models = [m for m in models if m.efficiency_tier == tier.value]
+        if not models:
+            console.print(f"[red]No models found for tier:[/red] {tier.value}")
+            raise typer.Exit(1)
+    results = calculate_all(models, input_tokens, output_tokens)
+    
+    # Sort by cost (default) or value score
+    if sort_by == "value":
+        results.sort(key=lambda r: r.value_score, reverse=True)
+    else:
+        results.sort(key=lambda r: r.total_cost)
+    
+    results = results[:top]
     if not results:
         console.print("[yellow]No results to display[/yellow]")
         raise typer.Exit(1)
-    print_calc_table(results, input_tokens, output_tokens)
-    cheapest = results[0]
-    console.print(
-        f"\n  [bold bright_green]Cheapest:[/bold bright_green] [bold]{cheapest.model.name}[/bold]"
-        f" ({cheapest.model.provider_name}) - {format_cost(cheapest.total_cost)}\n"
-    )
+    print_calc_table(results, input_tokens, output_tokens, sort_by=sort_by)
+    
+    if sort_by == "value":
+        best = results[0]
+        console.print(
+            f"\n  [bold bright_green]Best value:[/bold bright_green] [bold]{best.model.name}[/bold]"
+            f" ({best.model.provider_name}) - {format_cost(best.total_cost)} [{best.model.efficiency_tier}]\n"
+        )
+    else:
+        cheapest = results[0]
+        console.print(
+            f"\n  [bold bright_green]Cheapest:[/bold bright_green] [bold]{cheapest.model.name}[/bold]"
+            f" ({cheapest.model.provider_name}) - {format_cost(cheapest.total_cost)} [{cheapest.model.efficiency_tier}]\n"
+        )
 
 
 @app.command("compare", help="Compare specific models side by side.")

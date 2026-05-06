@@ -20,6 +20,7 @@ class Model:
     input_per_million: float
     output_per_million: float
     context_window: int
+    efficiency_tier: str = "standard"  # flagship, advanced, standard, budget
 
 
 def load_models() -> List[Model]:
@@ -52,6 +53,7 @@ def load_models() -> List[Model]:
                         input_per_million=float(model_data.get('input', 0)),
                         output_per_million=float(model_data.get('output', 0)),
                         context_window=int(model_data.get('context', 0)),
+                        efficiency_tier=model_data.get('efficiency_tier', 'standard'),
                     ))
                 except (ValueError, TypeError) as e:
                     logger.warning(f"Error parsing model {provider_id}/{model_id}: {e}")

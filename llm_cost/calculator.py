@@ -8,6 +8,14 @@ from llm_cost.data_loader import Model
 
 logger = logging.getLogger(__name__)
 
+# Efficiency tier weights for value score calculation
+EFFICIENCY_WEIGHTS = {
+    "flagship": 10.0,
+    "advanced": 7.0,
+    "standard": 4.0,
+    "budget": 2.0,
+}
+
 
 @dataclass
 class CalculationResult:
@@ -18,6 +26,7 @@ class CalculationResult:
     input_cost: float
     output_cost: float
     total_cost: float
+    value_score: float = 0.0  # efficiency / cost ratio
 
 
 def estimate_tokens(text: str) -> int:
@@ -39,13 +48,21 @@ def calculate(model: Model, input_tokens: int, output_tokens: int) -> Calculatio
     """Calculate the cost for a single model."""
     input_cost = (input_tokens / 1_000_000) * model.input_per_million
     output_cost = (output_tokens / 1_000_000) * model.output_per_million
+    total_cost = input_cost + output_cost
+    
+    # Calculate value score: efficiency weight / cost
+    # Higher score = better value (more efficiency per dollar)
+    efficiency_weight = EFFICIENCY_WEIGHTS.get(model.efficiency_tier, 4.0)
+    value_score = efficiency_weight / max(total_cost, 0.000001) if total_cost > 0 else 0
+    
     return CalculationResult(
         model=model,
         input_tokens=input_tokens,
         output_tokens=output_tokens,
         input_cost=input_cost,
         output_cost=output_cost,
-        total_cost=input_cost + output_cost,
+        total_cost=total_cost,
+        value_score=value_score,
     )
 
 

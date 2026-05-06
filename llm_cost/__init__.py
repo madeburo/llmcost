@@ -1,6 +1,6 @@
 """LLM Cost - Compare LLM API prices across providers."""
 
-__version__ = "1.1.1"
+__version__ = "1.2.0"
 __author__ = "madeburo"
 __license__ = "MIT"
 

@@ -11,46 +11,55 @@ providers:
         input: 0.20
         output: 1.25
         context: 200000
+        efficiency_tier: budget
       gpt-5-4-mini:
         name: GPT-5.4 Mini
         input: 0.75
         output: 4.50
         context: 400000
+        efficiency_tier: standard
       gpt-5:
         name: GPT-5
         input: 1.25
         output: 10.00
         context: 400000
+        efficiency_tier: standard
       o4-mini:
         name: o4 Mini
         input: 1.10
         output: 4.40
         context: 200000
+        efficiency_tier: advanced
       gpt-5-4:
         name: GPT-5.4
         input: 2.50
         output: 15.00
         context: 1050000
+        efficiency_tier: advanced
       gpt-5-5:
         name: GPT-5.5
         input: 5.00
         output: 30.00
         context: 1000000
+        efficiency_tier: flagship
       o3:
         name: o3
         input: 10.00
         output: 40.00
         context: 200000
+        efficiency_tier: flagship
       gpt-5-4-pro:
         name: GPT-5.4 Pro
         input: 30.00
         output: 180.00
         context: 400000
+        efficiency_tier: flagship
       gpt-5-5-pro:
         name: GPT-5.5 Pro
         input: 30.00
         output: 180.00
         context: 1000000
+        efficiency_tier: flagship
 
   anthropic:
     name: Anthropic
@@ -61,21 +70,25 @@ providers:
         input: 1.00
         output: 5.00
         context: 200000
+        efficiency_tier: standard
       claude-sonnet-4-6:
         name: Claude Sonnet 4.6
         input: 3.00
         output: 15.00
         context: 1000000
+        efficiency_tier: advanced
       claude-opus-4-6:
         name: Claude Opus 4.6
         input: 5.00
         output: 25.00
         context: 1000000
+        efficiency_tier: flagship
       claude-opus-4-7:
         name: Claude Opus 4.7
         input: 5.00
         output: 25.00
         context: 1000000
+        efficiency_tier: flagship
 
   google:
     name: Google
@@ -86,26 +99,31 @@ providers:
         input: 0.10
         output: 0.40
         context: 1000000
+        efficiency_tier: budget
       gemini-3-flash:
         name: Gemini 3 Flash
         input: 0.50
         output: 3.00
         context: 1000000
+        efficiency_tier: standard
       gemini-2-5-flash:
         name: Gemini 2.5 Flash
         input: 0.30
         output: 2.50
         context: 1000000
+        efficiency_tier: standard
       gemini-2-5-pro:
         name: Gemini 2.5 Pro
         input: 1.25
         output: 10.00
         context: 1000000
+        efficiency_tier: advanced
       gemini-3-1-pro:
         name: Gemini 3.1 Pro
         input: 2.00
         output: 12.00
         context: 1000000
+        efficiency_tier: advanced
 
   mistral:
     name: Mistral AI
@@ -116,16 +134,19 @@ providers:
         input: 0.06
         output: 0.18
         context: 131072
+        efficiency_tier: budget
       mistral-large-3:
         name: Mistral Large 3
         input: 0.50
         output: 1.50
         context: 256000
+        efficiency_tier: standard
       mistral-medium-3-5:
         name: Mistral Medium 3.5
         input: 1.00
         output: 3.00
         context: 256000
+        efficiency_tier: standard
 
   deepseek:
     name: DeepSeek
@@ -136,16 +157,19 @@ providers:
         input: 0.14
         output: 0.28
         context: 1000000
+        efficiency_tier: budget
       deepseek-v4-pro:
         name: DeepSeek V4 Pro
         input: 1.74
         output: 3.48
         context: 1000000
+        efficiency_tier: standard
       deepseek-r1:
         name: DeepSeek R1
         input: 0.55
         output: 2.19
         context: 1000000
+        efficiency_tier: advanced
 
   xai:
     name: xAI
@@ -156,11 +180,13 @@ providers:
         input: 0.20
         output: 0.50
         context: 2000000
+        efficiency_tier: budget
       grok-4:
         name: Grok 4
         input: 3.00
         output: 15.00
         context: 2000000
+        efficiency_tier: advanced
 
   meta:
     name: Meta (via Groq)
@@ -171,11 +197,13 @@ providers:
         input: 0.27
         output: 0.85
         context: 1000000
+        efficiency_tier: budget
       llama-3-3-70b:
         name: Llama 3.3 70B
         input: 0.59
         output: 0.79
         context: 128000
+        efficiency_tier: budget
 
   cohere:
     name: Cohere
@@ -186,11 +214,13 @@ providers:
         input: 0.04
         output: 0.15
         context: 128000
+        efficiency_tier: budget
       command-r-plus:
         name: Command R+
         input: 3.00
         output: 15.00
         context: 128000
+        efficiency_tier: standard
 
   zai:
     name: Z.AI
@@ -201,6 +231,7 @@ providers:
         input: 1.40
         output: 4.40
         context: 200000
+        efficiency_tier: standard
 
   kimi:
     name: Kimi
@@ -211,6 +242,7 @@ providers:
         input: 0.95
         output: 4.00
         context: 262144
+        efficiency_tier: standard
 
   minimax:
     name: MiniMax
@@ -221,3 +253,4 @@ providers:
         input: 0.30
         output: 1.20
         context: 196608
+        efficiency_tier: budget
