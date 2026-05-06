@@ -162,10 +162,10 @@ Prices in USD per 1M tokens.
 
 Models are categorized by their capabilities and efficiency:
 
-- **🏆 Flagship**: Top-tier models with maximum efficiency for complex tasks (GPT-5.5, Claude Opus 4.7, o3)
-- **⚡ Advanced**: Excellent balance of quality and cost (GPT-5.4, Claude Sonnet, DeepSeek R1, Gemini Pro)
-- **✓ Standard**: Solid performance for most tasks (GPT-5, Claude Haiku, Gemini Flash)
-- **💰 Budget**: Cost-effective for simple tasks (Nano, Small, Lite models)
+- **Flagship**: Top-tier models with maximum efficiency for complex tasks (GPT-5.5, Claude Opus 4.7, o3)
+- **Advanced**: Excellent balance of quality and cost (GPT-5.4, Claude Sonnet, DeepSeek R1, Gemini Pro)
+- **Standard**: Solid performance for most tasks (GPT-5, Claude Haiku, Gemini Flash)
+- **Budget**: Cost-effective for simple tasks (Nano, Small, Lite models)
 
 | Provider    | Model              | Tier     | Input    | Output   | Context |
 |-------------|--------------------|----------|----------|----------|---------|
@@ -217,7 +217,7 @@ Price sources:
 
 **33 models across 11 providers.** Prices stored in [`llm_cost/data/prices.yaml`](llm_cost/data/prices.yaml) — PRs to update them are always welcome!
 
-📦 **PyPI:** [pypi.org/project/llmprices](https://pypi.org/project/llmprices/)
+**PyPI:** [pypi.org/project/llmprices](https://pypi.org/project/llmprices/)
 
 ---
 
